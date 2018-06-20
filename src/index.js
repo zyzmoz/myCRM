@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/css/master.css';
+import { ipcRenderer } from 'electron';
 
 //redux
 import { Provider } from 'react-redux';

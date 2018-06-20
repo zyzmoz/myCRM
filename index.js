@@ -20,5 +20,31 @@ app.on('ready', () => {
     webPreferences: { backgroundThrottling: false }
   });
   mysqlConnection.connect();
-  mainWindow.loadURL( 'http://localhost:8080' || `file://${__dirname}/dist/index.html`);
+  // mysqlConnection.query('CREATE TABLE CUSTOMERS (ID integer not null primary key AUTO_INCREMENT )', (error, res)=> {
+  //   if (error){
+  //     console.log(error);
+  //     mysqlConnection.rollback();   
+  //     throw error;         
+  //   }
+
+  //   mysqlConnection.commit((err) => {
+  //     if (err){
+  //       console.log(err);
+  //       mysqlConnection.rollback();      
+  //     }  
+  //   })
+  // })
+  mainWindow.loadURL('http://localhost:8080' || `file://${__dirname}/dist/index.html`);
+});
+
+ipcMain.on('customers:query', async (event, str) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('SELECT * FROM CUSTOMERS', (error, results, fields) => {
+      if (error) throw error;
+      resolve(results);
+    });
+  });
+
+  mainWindow.webContents.send('customers:query:complete', query);
+
 })

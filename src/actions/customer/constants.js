@@ -1,0 +1,1 @@
+export const QUERY_CUSTOMERS = 'QUERY_CUSTOMERS';

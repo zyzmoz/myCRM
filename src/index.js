@@ -9,6 +9,11 @@ import { ipcRenderer } from 'electron';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
+ipcRenderer.send('customers:query', 'str');
+  ipcRenderer.on('customers:query:complete', (event, data) => {
+    console.log(data);
+});
+
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 import reducers from './reducers';

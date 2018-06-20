@@ -1,6 +1,6 @@
-export const createReducer = (initialState, actionHandlers) = (
-  reducer = (state = initialState, action) => 
-    actionHandlers.hasOwnProperty(action.type)?
-      actionHandlers[action.type](state, action):
-      state  
-)
+export const createReducer = (initialState, fnMap) => {
+  return (state = initialState, {type, payload}) => {
+    const handler = fnMap[type];
+    return handler ? handler(state, payload): state
+  }
+}

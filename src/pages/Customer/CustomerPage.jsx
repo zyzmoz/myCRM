@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 
-const CustomerPage = () => {
-  console.log('Customer');
+const mapState = (state) => ({
+  customer: state.customer
+})
+
+const CustomerPage = ({customer}) => {
+  console.log('Customer', this.props);
+  
   return (
     <div className="container">
       <Table striped bordered condensed hover>
@@ -38,4 +44,4 @@ const CustomerPage = () => {
   );
 };
 
-export default CustomerPage;
+export default connect(mapState)(CustomerPage);

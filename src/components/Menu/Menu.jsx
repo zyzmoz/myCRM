@@ -4,7 +4,7 @@ import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 const Menu = () => {
   return (
-    <Navbar inverse collapseOnSelect staticTop>
+    <Navbar inverse  staticTop>
       <Navbar.Header>
         {/* <Navbar.Brand>
         <a href="https://github.com/kecorbin/react-collins-ui">React-Bootstrap</a>

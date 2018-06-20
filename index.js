@@ -1,5 +1,6 @@
 const electron = require('electron');
 const mysql = require('mysql');
+const createDatabase = require('./database/database-persistence');
 const mysqlConfig = {
   host: 'localhost',
   user: 'root',
@@ -11,6 +12,7 @@ const mysqlConnection = mysql.createConnection(mysqlConfig);
 
 const { app, BrowserWindow, ipcMain } = electron;
 
+
 let mainWindow;
 
 app.on('ready', () => {
@@ -20,20 +22,7 @@ app.on('ready', () => {
     webPreferences: { backgroundThrottling: false }
   });
   mysqlConnection.connect();
-  // mysqlConnection.query('CREATE TABLE CUSTOMERS (ID integer not null primary key AUTO_INCREMENT )', (error, res)=> {
-  //   if (error){
-  //     console.log(error);
-  //     mysqlConnection.rollback();   
-  //     throw error;         
-  //   }
-
-  //   mysqlConnection.commit((err) => {
-  //     if (err){
-  //       console.log(err);
-  //       mysqlConnection.rollback();      
-  //     }  
-  //   })
-  // })
+  createDatabase(mysqlConnection);
   mainWindow.loadURL('http://localhost:8080' || `file://${__dirname}/dist/index.html`);
 });
 
@@ -47,4 +36,4 @@ ipcMain.on('customers:query', async (event, str) => {
 
   mainWindow.webContents.send('customers:query:complete', query);
 
-})
+});

@@ -1,6 +1,9 @@
 import {
   QUERY_CUSTOMERS,
-  GET_CUSTOMER
+  GET_CUSTOMER,
+  CREATE_CUSTOMER,
+  UPDATE_COSTUMER,
+  START_DELETE_COSTUMER
 } from './constants';
 import { ipcRenderer } from 'electron';
 
@@ -24,13 +27,46 @@ export const getCustomer = (id) => {
   ipcRenderer.send('customers:get', id);
   console.log('data sent');
   return async (dispatch) => {
-    await ipcRenderer.on('customers:get:complete', (event, data) => {      
+    await ipcRenderer.on('customers:get:complete', (event, data) => {    
+      console.log('data', data);  
       dispatch({
         type: GET_CUSTOMER,
         payload: {
-          data: data[0]
+          data: data
         }
       });
     });
+  }
+}
+
+export const createCustomer = (customer) => {
+  ipcRenderer.send('customers:create', customer);  
+  return async (dispatch) => {
+    await ipcRenderer.on('customers:create:complete', (event, data) => {      
+      console.log('data', data);
+      dispatch({
+        type: CREATE_CUSTOMER        
+      });
+    });
+  }
+}
+
+export const updateCustomer = (customer) => {
+  ipcRenderer.send('customers:update', customer);
+  return async (dispatch) => {
+    await ipcRenderer.on('customers:update:complete', (event, data) => {
+      dispatch({
+        type: UPDATE_COSTUMER
+      });
+    });
+  }
+}
+
+export const startDeleteCustomer = (customer) => {
+  return {
+    type: START_DELETE_COSTUMER,
+    payload: {
+      data: customer
+    }
   }
 }

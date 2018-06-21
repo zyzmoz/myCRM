@@ -2,10 +2,11 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import CustomerItem from './CustomerItem';
 
-const CustomerList = ({ customers }) => {
+const CustomerList = ({ customers, openDelete }) => {
   console.log(customers);
   return (
     <div>
+      
       <Table striped bordered condensed hover>
         <thead>
           <tr>
@@ -19,7 +20,7 @@ const CustomerList = ({ customers }) => {
         <tbody>
           {
             customers && customers.map(customer =>
-              <CustomerItem key={customer.id} customer={customer} />
+              <CustomerItem key={customer.id} customer={customer} openDelete={openDelete} />
             )
           }
 

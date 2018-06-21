@@ -55,10 +55,40 @@ ipcMain.on('customers:get', async (event, id) => {
   var query = await new Promise((resolve) => {
     mysqlConnection.query('select * from CUSTOMERS where id = ?', [id], (error, results, fields) => {
       if (error) throw error;
-      resolve(results);
+      resolve(results[0]);
     });
   });
 
   mainWindow.webContents.send('customers:get:complete', query);
 
+});
+
+ipcMain.on('customers:create', async (event, customer) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('insert into CUSTOMERS (doc_id, cpf_cnpj, name, birthdate, phone, mobile, email, address, neighborhood, city, state, fidelity, obs)' +
+      'values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [
+        customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone, 
+        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city, 
+        customer.state, customer.fidelity, customer.obs
+      ], (error, results, fields) => {
+        if (error) throw error;
+        resolve(results);
+      });
+  });
+  mainWindow.webContents.send('customers:create:complete', query);
+});
+
+ipcMain.on('customers:update', async (event, customer) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('update CUSTOMERS set doc_id =?, cpf_cnpj=?, name=?, birthdate=?, phone=?, mobile=?, email=?, '+
+        'address=?, neighborhood=?, city=?, state=?, fidelity=?, obs=? where id=?', [
+        customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone, 
+        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city, 
+        customer.state, customer.fidelity, customer.obs, customer.id
+      ], (error, results, fields) => {
+        if (error) throw error;
+        resolve(results);
+      });
+  });
+  mainWindow.webContents.send('customers:update:complete', query);
 });

@@ -1,36 +1,60 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Glyphicon } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import CustomerList from '../../components/Customer/CustomerList';
-import { queryCustomers } from '../../actions/customer';
+import { queryCustomers, startDeleteCustomer } from '../../actions/customer';
+import CustomerDeleteForm from '../../components/Customer/CustomerDeleteForm';
 
 const mapState = (state) => ({
-  customers: state.customer.list
+  customers: state.customer.list,
+  customer: state.customer.object,
 });
 
 const actions = {
-  queryCustomers
+  queryCustomers,
+  startDeleteCustomer
 }
 
 class CustomerPage extends Component {
   state = {
-    search: ''
+    search: '',
+    deleting: false,
+    customer: {}
   }
   componentWillMount() {
     this.props.queryCustomers();
   }
 
-  queryCustomers = async (str) =>{    
-    await this.setState({search: str});    
+  queryCustomers = async (str) => {
+    await this.setState({ search: str });
     await this.props.queryCustomers(this.state.search);
   }
-  
+
+  handleOpenDelete = async (customer) => {
+    await this.props.startDeleteCustomer({ ...customer, deleting: true });
+    console.log(this.props);
+  }
+
+  handleCancelDelete = async (customer) => {
+    await this.props.startDeleteCustomer({ ...customer, deleting: false });
+  }
+
+  handleDelete = async (customer) => {
+    await this.props.startDeleteCustomer({ ...customer, deleting: false });
+    console.log(this.props);
+  }
+
 
   render() {
-    const { customers } = this.props;
-    
+    const { customers, customer } = this.props;
+
+
     return (
       <div className="padding">
+        {customer && customer.deleting &&
+          <CustomerDeleteForm customer={customer} handleDelete={this.handleDelete} handleCancel={this.handleCancelDelete}/>
+        }
         <h3>Clientes</h3>
         <form>
           <FormGroup
@@ -38,8 +62,8 @@ class CustomerPage extends Component {
           >
             <ControlLabel>Buscar</ControlLabel>
             <FormControl
-              type="text"   
-              value={this.state.search}           
+              type="text"
+              value={this.state.search}
               placeholder="Digite um nome"
               onChange={(e) => this.queryCustomers(e.target.value)}
             />
@@ -48,7 +72,14 @@ class CustomerPage extends Component {
           </FormGroup>
         </form>
         <br />
-        <CustomerList customers={customers} />
+        <LinkContainer to="/createCustomer">
+          <Button bsStyle="success">
+            <Glyphicon glyph="star" />
+            Novo
+          </Button>
+        </LinkContainer>
+        <br />
+        <CustomerList customers={customers} openDelete={this.handleOpenDelete} />
       </div>
     )
   }

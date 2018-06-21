@@ -19,9 +19,10 @@ class CustomerDetailedPage extends Component {
     console.log(id);
 
     await getCustomer(id);
+    console.log
   }
   render() {
-    console.log(this.props);
+    
     const { customer } = this.props;
     return (
       <div className="container">
@@ -34,7 +35,7 @@ class CustomerDetailedPage extends Component {
               <Grid className="grid">
                 <Row className="show-grid">
                   <Col xs={6} md={4}>
-                    <strong>RG: </strong>{customer.doc_id}
+                    <strong>RG/IE: </strong>{customer.doc_id}
                   </Col>
                   <Col xs={6} md={4}>
                     <strong>CPF/CNPJ: </strong>{customer.cpf_cnpj}

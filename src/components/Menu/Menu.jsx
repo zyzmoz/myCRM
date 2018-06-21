@@ -5,12 +5,12 @@ import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 const Menu = () => {
   return (
     <Navbar inverse  staticTop>
-      <Navbar.Header>
+      {/* <Navbar.Header> */}
         {/* <Navbar.Brand>
         <a href="https://github.com/kecorbin/react-collins-ui">React-Bootstrap</a>
       </Navbar.Brand>
       <Navbar.Toggle /> */}
-      </Navbar.Header>
+      {/* </Navbar.Header> */}
       <Navbar.Collapse>
         <Nav>
           <LinkContainer to="/">

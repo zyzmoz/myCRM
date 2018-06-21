@@ -5,7 +5,7 @@ import CustomerList from '../../components/Customer/CustomerList';
 import { queryCustomers } from '../../actions/customer';
 
 const mapState = (state) => ({
-  customers: state.customer.data
+  customers: state.customer.list
 });
 
 const actions = {

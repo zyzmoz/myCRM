@@ -15,3 +15,12 @@ td, tr {
   margin-left: 5px;
 
 }
+
+.show-grid {
+  border-bottom: 1px solid #d6d6d6;
+  margin-bottom: 8px;
+}
+
+.grid {
+  width: 100%
+}

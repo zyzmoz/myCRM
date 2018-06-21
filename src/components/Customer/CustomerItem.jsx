@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Glyphicon } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const CustomerItem = ({ customer }) => {
   return (
@@ -9,9 +10,11 @@ const CustomerItem = ({ customer }) => {
       <td>{customer.phone}</td>
       <td>{customer.mobile}</td>
       <td className="actions">
-        <Button bsStyle="default">
-          <Glyphicon glyph="search" />
-        </Button>
+        <LinkContainer to={`/customer/${customer.id}`}>
+          <Button bsStyle="default">
+            <Glyphicon glyph="search" />
+          </Button>
+        </LinkContainer>
 
         <Button bsStyle="primary">
           <Glyphicon glyph="pencil" />
@@ -22,7 +25,7 @@ const CustomerItem = ({ customer }) => {
         </Button>
 
       </td>
-      
+
     </tr>
   );
 };

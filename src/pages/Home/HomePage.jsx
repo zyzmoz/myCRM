@@ -4,7 +4,7 @@ const HomePage = () => {
   console.log('Home')
   return (
     <div className="padding">
-      Hello
+      
     </div>
   );
 };

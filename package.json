@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "date-fns": "^1.29.0",
     "jest": "^23.1.0",
     "moment": "^2.22.2",
     "mysql": "^2.15.0",

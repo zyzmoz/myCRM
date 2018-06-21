@@ -1,1 +1,2 @@
 export const QUERY_CUSTOMERS = 'QUERY_CUSTOMERS';
+export const GET_CUSTOMER = 'GET_CUSTOMER';

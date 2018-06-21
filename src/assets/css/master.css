@@ -1,3 +1,17 @@
 .padding {
   padding: 5px;
 }
+
+.actions {
+  width: 150px;
+
+}
+
+td, tr {
+  vertical-align: middle;
+}
+
+.actions button {
+  margin-left: 5px;
+
+}

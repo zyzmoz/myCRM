@@ -5,6 +5,7 @@ const createDatabase = (conn) => {
     "doc_id varchar(15)," +
     "cpf_cnpj varchar(20)," +
     "name varchar(60)," +
+    "email varchar(60)," +
     "phone varchar(20)," +
     "mobile varchar(20)," +
     "address varchar(60)," +

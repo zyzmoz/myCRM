@@ -17,13 +17,21 @@ let mainWindow;
 
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: 768,
+    width: 1024,
     webPreferences: { backgroundThrottling: false }
   });
   mysqlConnection.connect();
   createDatabase(mysqlConnection);
-  mainWindow.loadURL('http://localhost:8080' || `file://${__dirname}/dist/index.html`);
+  
+  console.log('Environment', process.env.NODE_ENV);
+  if (process.env.NODE_ENV === 'production') {
+    mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
+  } else {
+    mainWindow.loadURL('http://localhost:8080');
+  }
+  
+
 });
 
 ipcMain.on('customers:query', async (event, str) => {

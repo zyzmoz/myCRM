@@ -3,18 +3,14 @@ import {
 } from '../../actions/customer/constants';
 
 import { createReducer } from '../../util/createReducer';
-import { ipcRenderer } from 'electron';
 
-let initialState = [];
-ipcRenderer.send('customers:query', '');
-  ipcRenderer.on('customers:query:complete', (event, data) => {
-    initialState = data;
-});
 
-const queryCustomers = (state, payload) => {
-  return [
-    ...state, payload.data
-  ]
+let initialState = {};
+
+const queryCustomers = (state, payload) => {  
+  return {
+    data: payload.data
+  }
 }
 
 export default createReducer(initialState, {

@@ -84,13 +84,11 @@ class CustomerDetailedPage extends Component {
                 </Row>
               </Grid>
               <hr />              
-              <Button onClick={() => this.props.history.goBack()} >
-                <Glyphicon glyph="arrow-left"/>
+              <Button onClick={() => this.props.history.back()} >                
                 Voltar
               </Button>
 
-              <Button bsStyle="primary" style={{float: 'right'}}>
-                <Glyphicon glyph="pencil"/>
+              <Button bsStyle="primary" style={{float: 'right'}}>                
                 Editar
               </Button>
             </Panel.Body>

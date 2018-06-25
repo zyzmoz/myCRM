@@ -51,8 +51,8 @@ module.exports = {
         loader: 'file-loader'
       },
       {
-      test: /\.otf(\?.*)?$/,
-      use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
+        test: /\.otf(\?.*)?$/,
+        use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
       }
     ]
   },
@@ -60,8 +60,8 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   output: {
-    path: __dirname + '/dist',
-    publicPath: '/',
+    path: __dirname + './dist',
+    publicPath: './',
     filename: 'bundle.js'
   },
   plugins: [

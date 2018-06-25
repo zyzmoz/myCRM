@@ -28,13 +28,18 @@ app.on('ready', () => {
   mainWindow.show();
   mysqlConnection.connect();
   createDatabase(mysqlConnection);
+  
 
   console.log('Environment', process.env.NODE_ENV);
-  if (process.env.NODE_ENV === 'production') {
-    mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
-  } else {
-    mainWindow.loadURL('http://localhost:8080');
-  }
+  // if (process.env.NODE_ENV === 'production') {
+  //   mainWindow.setMenu(null);
+  //   mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
+  // } else {
+  //   mainWindow.loadURL('http://localhost:8080');    
+  // }
+  mainWindow.loadURL(`file://${__dirname}/src/index.html`);
+  mainWindow.webContents.openDevTools();
+  mainWindow.on('closed', () => app.quit());
 
 
 });

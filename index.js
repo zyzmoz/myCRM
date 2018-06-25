@@ -37,7 +37,7 @@ app.on('ready', () => {
   // } else {
   //   mainWindow.loadURL('http://localhost:8080');    
   // }
-  mainWindow.loadURL(`file://${__dirname}/src/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
   mainWindow.webContents.openDevTools();
   mainWindow.on('closed', () => app.quit());
 

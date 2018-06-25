@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FormGroup, ControlLabel, FormControl, Button, Glyphicon } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import CustomerList from '../../components/Customer/CustomerList';
-import { queryCustomers, startDeleteCustomer } from '../../actions/customer';
+import { queryCustomers, startDeleteCustomer, deleteCustomer } from '../../actions/customer';
 import CustomerDeleteForm from '../../components/Customer/CustomerDeleteForm';
 
 const mapState = (state) => ({
@@ -13,7 +13,8 @@ const mapState = (state) => ({
 
 const actions = {
   queryCustomers,
-  startDeleteCustomer
+  startDeleteCustomer,
+  deleteCustomer
 }
 
 class CustomerPage extends Component {
@@ -40,8 +41,8 @@ class CustomerPage extends Component {
     await this.props.startDeleteCustomer({ ...customer, deleting: false });
   }
 
-  handleDelete = async (customer) => {
-    await this.props.startDeleteCustomer({ ...customer, deleting: false });
+  handleDelete = async (id) => {
+    await this.props.deleteCustomer(id);
     console.log(this.props);
   }
 
@@ -75,6 +76,7 @@ class CustomerPage extends Component {
         <LinkContainer to="/createCustomer">
           <Button bsStyle="success">
             <Glyphicon glyph="star" />
+            
             Novo
           </Button>
         </LinkContainer>

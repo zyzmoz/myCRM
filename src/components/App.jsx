@@ -4,7 +4,13 @@ import CustomerPage from '../pages/Customer/CustomerPage';
 import CustomerDetailedPage from '../pages/Customer/CustomerDetailedPage';
 import CustomerForm from './Customer/CustomerForm';
 import Menu from './Menu/Menu';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
+
+// library.add(faStroopwafel)
 
 const App = () =>
   <Router >

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCustomer, createCustomer, updateCustomer } from '../../actions/customer';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Panel, Button, Glyphicon, Row, Col } from 'react-bootstrap';
+import MaskedFormControl from 'react-bootstrap-maskedinput';
 
 import format from 'date-fns/format';
 
@@ -188,7 +189,7 @@ class CustomerForm extends Component {
                       <FormControl
                         type="text"
                         value={this.state.customer.phone}
-                        placeholder="Telefone"
+                        placeholder="Telefone"                                              
                         onChange={e => this.handleChange('phone', e.target.value)}
                       />
                     </Col>
@@ -196,9 +197,8 @@ class CustomerForm extends Component {
                       <ControlLabel>Celular</ControlLabel>
                       <FormControl
                         type="text"
-
                         value={this.state.customer.mobile}
-                        placeholder="Celular"
+                        placeholder="Celular"                        
                         onChange={e => this.handleChange('mobile', e.target.value)}
                       />
                     </Col>

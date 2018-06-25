@@ -1,5 +1,7 @@
 const electron = require('electron');
 const mysql = require('mysql');
+const request = require('request');
+
 const createDatabase = require('./database/database-persistence');
 const mysqlConfig = {
   host: 'localhost',
@@ -28,20 +30,18 @@ app.on('ready', () => {
   mainWindow.show();
   mysqlConnection.connect();
   createDatabase(mysqlConnection);
-  
 
-  console.log('Environment', process.env.NODE_ENV);
-  // if (process.env.NODE_ENV === 'production') {
-  //   mainWindow.setMenu(null);
-  //   mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
-  // } else {
-  //   mainWindow.loadURL('http://localhost:8080');    
-  // }
-  mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
-  mainWindow.webContents.openDevTools();
+  request('http://localhost:8080', (err, resoponse, body) => {
+    if (!err && resoponse.statusCode == 200) {
+      mainWindow.loadURL('http://localhost:8080');
+      mainWindow.webContents.openDevTools();
+    } else {
+      mainWindow.setMenu(null);
+      mainWindow.loadURL(`file://${__dirname}/dist/index.html`);
+    }
+  });
+
   mainWindow.on('closed', () => app.quit());
-
-
 });
 
 ipcMain.on('customers:query', async (event, str) => {
@@ -72,8 +72,8 @@ ipcMain.on('customers:create', async (event, customer) => {
   var query = await new Promise((resolve) => {
     mysqlConnection.query('insert into CUSTOMERS (doc_id, cpf_cnpj, name, birthdate, phone, mobile, email, address, neighborhood, city, state, fidelity, obs)' +
       'values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [
-        customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone, 
-        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city, 
+        customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone,
+        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city,
         customer.state, customer.fidelity, customer.obs
       ], (error, results, fields) => {
         if (error) throw error;
@@ -85,10 +85,10 @@ ipcMain.on('customers:create', async (event, customer) => {
 
 ipcMain.on('customers:update', async (event, customer) => {
   var query = await new Promise((resolve) => {
-    mysqlConnection.query('update CUSTOMERS set doc_id =?, cpf_cnpj=?, name=?, birthdate=?, phone=?, mobile=?, email=?, '+
-        'address=?, neighborhood=?, city=?, state=?, fidelity=?, obs=? where id=?', [
-        customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone, 
-        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city, 
+    mysqlConnection.query('update CUSTOMERS set doc_id =?, cpf_cnpj=?, name=?, birthdate=?, phone=?, mobile=?, email=?, ' +
+      'address=?, neighborhood=?, city=?, state=?, fidelity=?, obs=? where id=?', [
+        customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone,
+        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city,
         customer.state, customer.fidelity, customer.obs, customer.id
       ], (error, results, fields) => {
         if (error) throw error;
@@ -96,4 +96,16 @@ ipcMain.on('customers:update', async (event, customer) => {
       });
   });
   mainWindow.webContents.send('customers:update:complete', query);
+});
+
+ipcMain.on('customers:delete', async (event, id) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('delete from CUSTOMERS where id = ?', [id], (error, results, fields) => {
+      if (error) throw error;
+      resolve(results);
+    });
+  });
+
+  mainWindow.webContents.send('customers:delete:complete', query);
+
 });

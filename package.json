@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "build-react": "webpack --config ./webpack.config.js --mode production ",
-    "build": "webpack --config ./webpack.config.js --mode production && electron-packager ./ App --arch ia32 --platform win32 --out ./electron/ --app-version 0.30.2 --overwrite --ignore ./src",
+    "build-react": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production && cp index.js dist/index.js && electron-packager ./ App --arch ia32 --platform win32 --out ./electron/ --app-version 0.30.2 --overwrite --ignore ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daniel Cunha",
@@ -31,6 +31,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "babel-runtime": "^6.26.0",
     "child_process": "^1.0.2",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "electron": "^2.0.2",
     "electron-packager": "^12.1.0",
@@ -51,6 +52,7 @@
     "mysql": "^2.15.0",
     "react": "^15.6.1",
     "react-bootstrap": "^0.32.1",
+    "react-bootstrap-maskedinput": "^0.4.0",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.7",
     "react-router-bootstrap": "^0.24.4",

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCustomer } from '../../actions/customer';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Panel, Grid, Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import format from 'date-fns/format';
+
 
 const mapState = (state) => ({
   customer: state.customer.object
@@ -22,7 +24,7 @@ class CustomerDetailedPage extends Component {
     console.log
   }
   render() {
-    
+
     const { customer } = this.props;
     return (
       <div className="container">
@@ -83,14 +85,13 @@ class CustomerDetailedPage extends Component {
                   </Col>
                 </Row>
               </Grid>
-              <hr />              
-              <Button onClick={() => this.props.history.back()} >                
+              <hr />
+
+              <Button onClick={() => this.props.history.goBack()}>
+                <Glyphicon glyph="arrow-left" />
                 Voltar
               </Button>
 
-              <Button bsStyle="primary" style={{float: 'right'}}>                
-                Editar
-              </Button>
             </Panel.Body>
           </Panel>
 

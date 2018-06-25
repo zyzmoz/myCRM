@@ -70,3 +70,13 @@ export const startDeleteCustomer = (customer) => {
     }
   }
 }
+
+export const deleteCustomer = (id) => {
+  ipcRenderer.send('customers:delete', id);
+  return async (dispatch) => {
+    await ipcRenderer.on('customers:delete:complete', (event, data) => {
+      console.log(data);
+    });
+    queryCustomers();
+  }
+}

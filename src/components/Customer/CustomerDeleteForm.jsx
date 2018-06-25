@@ -13,7 +13,7 @@ const CustomerDeleteForm = ({handleDelete, handleCancel, customer}) => {
 
         <Modal.Footer>
           <Button onClick={handleCancel}>Cancelar</Button>
-          <Button onClick={() => handleDelete()} bsStyle="danger">Excluir</Button>
+          <Button onClick={() => handleDelete(customer.id)} bsStyle="danger">Excluir</Button>
         </Modal.Footer>
       </Modal.Dialog>
     </div>

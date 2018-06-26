@@ -26,6 +26,7 @@ class CustomerDetailedPage extends Component {
   render() {
 
     const { customer } = this.props;
+    console.log(customer);
     return (
       <div className="container">
         {customer &&

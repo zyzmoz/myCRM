@@ -76,7 +76,7 @@ class CustomerForm extends Component {
 
   async componentWillReceiveProps(nextProps){
     console.log('next', nextProps);
-    await this.setState({ ...this.state, customer: nextProps.customer });
+    await this.setState({ ...this.state, customer: {...nextProps.customer, birthdate: format(nextProps.customer.birthdate, 'YYYY-MM-DD')} });
   }
 
 

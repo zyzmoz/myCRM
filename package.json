@@ -4,7 +4,7 @@
   "description": "CRM",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
+    "start": "webpack-dev-server --config ./webpack.config.dev.js --mode development",
     "build-react": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.config.js --mode production && cp index.js dist/index.js && electron-packager ./ App --arch ia32 --platform win32 --out ./electron/ --app-version 0.30.2 --overwrite --ignore ./src",
     "test": "echo \"Error: no test specified\" && exit 1"

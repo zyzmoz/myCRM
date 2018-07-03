@@ -19,6 +19,9 @@ const Menu = () => {
         </div>
         </Link>
       </div>
+      <div className="menu-footer">
+        v1.0.0b
+      </div>
     </div>
     // <Navbar inverse  staticTop>
     //   {/* <Navbar.Header> */}

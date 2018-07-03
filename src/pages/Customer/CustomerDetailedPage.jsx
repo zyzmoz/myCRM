@@ -28,7 +28,7 @@ class CustomerDetailedPage extends Component {
     const { customer } = this.props;
     console.log(customer);
     return (
-      <div className="container">
+      <div className="padding window">
         {customer &&
           <Panel bsStyle="info">
             <Panel.Heading>

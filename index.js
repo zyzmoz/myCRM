@@ -30,10 +30,10 @@ app.on('ready', () => {
   mainWindow.show();
   mysqlConnection.connect();
   createDatabase(mysqlConnection);
-
+  
   request('http://localhost:8080', (err, resoponse, body) => {
     if (!err && resoponse.statusCode == 200) {
-      mainWindow.loadURL('http://localhost:8080');
+      mainWindow.loadURL('http://localhost:8080/');
       mainWindow.webContents.openDevTools();
     } else {
       mainWindow.setMenu(null);

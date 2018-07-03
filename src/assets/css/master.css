@@ -1,3 +1,9 @@
+html, 
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 .padding {
   padding: 5px;
 }
@@ -24,3 +30,61 @@ td, tr {
 .grid {
   width: 100%
 }
+
+.window {
+  height: 100vh;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.menu {
+  background-color: #222;
+  height: 100vh;
+  display: block;
+  color: #f2f2f2;
+  padding:5px;
+}
+
+.menu h3 {
+  margin: 0;
+  padding: 0;
+  padding-bottom: 5px;
+	border: 0;
+	outline: 0;
+	font-weight: 600;
+	font-style: inherit;
+	font-size: 110%;
+	font-family: inherit;
+	vertical-align: baseline;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.menu-item {
+  padding: 10px;
+}
+
+.menu-item:hover{
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu-group a {
+  margin: 0;
+  padding: 0;  
+	border: 0;
+  outline: 0;
+  width: 100%;
+	font-weight: 600;
+	font-style: inherit;
+	font-size: 110%;
+	font-family: inherit;
+  vertical-align: baseline;
+  text-decoration: none;
+  color: #f2f2f2;
+}
+
+.content{
+  
+  overflow: hidden;
+}
+

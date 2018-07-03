@@ -52,7 +52,7 @@ class CustomerPage extends Component {
 
 
     return (
-      <div className="padding">
+      <div className="padding window">
         {customer && customer.deleting &&
           <CustomerDeleteForm customer={customer} handleDelete={this.handleDelete} handleCancel={this.handleCancelDelete}/>
         }

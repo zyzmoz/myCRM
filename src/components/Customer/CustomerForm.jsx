@@ -88,7 +88,7 @@ class CustomerForm extends Component {
     console.log('Props',this.props);
 
     return (
-      <div className="container">
+      <div className="padding window">
         {customer &&
           <Panel>
             <Panel.Heading>

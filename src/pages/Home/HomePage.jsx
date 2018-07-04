@@ -1,9 +1,8 @@
 import React from 'react';
 
 const HomePage = () => {
-  console.log('Home')
   return (
-    <div className="padding">
+    <div className="padding window">
       <h3>Início</h3>
     </div>
   );

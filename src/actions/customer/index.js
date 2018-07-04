@@ -25,10 +25,8 @@ export const queryCustomers = (str) => {
 
 export const getCustomer = (id) => {
   ipcRenderer.send('customers:get', id);
-  console.log('data sent');
   return async (dispatch) => {
     await ipcRenderer.on('customers:get:complete', (event, data) => {    
-      console.log('data', data);  
       dispatch({
         type: GET_CUSTOMER,
         payload: {
@@ -43,7 +41,6 @@ export const createCustomer = (customer) => {
   ipcRenderer.send('customers:create', customer);  
   return async (dispatch) => {
     await ipcRenderer.on('customers:create:complete', (event, data) => {      
-      console.log('data', data);
       dispatch({
         type: CREATE_CUSTOMER        
       });
@@ -75,7 +72,6 @@ export const deleteCustomer = (id) => {
   ipcRenderer.send('customers:delete', id);
   return async (dispatch) => {
     await ipcRenderer.on('customers:delete:complete', (event, data) => {
-      console.log(data);
     });
     queryCustomers();
   }

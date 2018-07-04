@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap';
 import CustomerItem from './CustomerItem';
 
 const CustomerList = ({ customers, openDelete }) => {
-  console.log(customers);
   return (
     <div>
       

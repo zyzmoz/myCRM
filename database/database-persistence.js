@@ -19,7 +19,7 @@ const createDatabase = (conn) => {
       if (error) {
         console.log(error);
         conn.rollback();
-        
+
       }
 
       conn.commit((err) => {
@@ -29,7 +29,27 @@ const createDatabase = (conn) => {
         }
       })
     });
+  
+  conn.query("create table users ("+
+    "id integer not null primary key auto_increment,"+
+    "name varchar(60),"+
+    "email varchar(60),"+
+    "user varchar(60),"+
+    "password varchar(60))", (error, res) => {
+      if (error) {
+        console.log(error);
+        conn.rollback();
 
+      }
+
+      conn.commit((err) => {
+        if (err) {
+          console.log(err);
+          conn.rollback();
+        }
+        conn.query("insert into users (user, password) values ('Admin', 'Admin')");
+      })
+    });
 }
 
 module.exports = createDatabase;

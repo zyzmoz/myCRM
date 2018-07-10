@@ -30,7 +30,7 @@ app.on('ready', () => {
   mainWindow.show();
   mysqlConnection.connect();
   createDatabase(mysqlConnection);
-  
+
   request('http://localhost:8080', (err, resoponse, body) => {
     if (!err && resoponse.statusCode == 200) {
       mainWindow.loadURL('http://localhost:8080/');
@@ -107,5 +107,25 @@ ipcMain.on('customers:delete', async (event, id) => {
   });
 
   mainWindow.webContents.send('customers:delete:complete', query);
+
+});
+
+ipcMain.on('auth:login', async (event, userData) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('select * from USERS where user = ?', [userData.usr], (error, results, fields) => {
+      if (error) throw error;
+      let auth = { authenticated: false, error: 'User not found' };
+      if (results.length > 0) {
+        if (results[0].password === userData.pwd){
+          auth = { ...auth, ...results[0], authenticated: true, error: null };
+        } else {
+          auth = { ...auth, error: 'Wrong password' };
+        }
+      }
+      resolve(auth);
+    });
+  }); 
+
+  mainWindow.webContents.send('auth:login:complete', query);
 
 });

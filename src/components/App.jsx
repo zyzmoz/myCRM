@@ -7,6 +7,7 @@ import Menu from './Menu/Menu';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import withAuthentication from '../hoc/withAuthentication';
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
@@ -50,4 +51,4 @@ const App = () =>
     </Row>
   </Router>
 
-export default App;
+export default withAuthentication(App);

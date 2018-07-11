@@ -114,10 +114,5 @@ td, tr {
   overflow: hidden;
 }
 
-.menu-dropdown {
-  display: none;
-}
-.menu-item:hover .menu-dropdown {
-  display: block;
-}
+
 

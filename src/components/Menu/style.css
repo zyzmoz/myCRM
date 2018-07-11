@@ -34,3 +34,19 @@
   float: left;   
   
 }
+
+.menu-dropdown {
+  display: none;
+}
+.menu-item:hover .menu-dropdown {
+  display: block;
+}
+
+.menu-dropdown .menu-item {
+  color: #7ea4b3;
+}
+
+.menu-dropdown .menu-item:hover {
+  background-color: transparent;
+  color: #f2f2f2;
+}

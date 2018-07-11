@@ -1,6 +1,7 @@
 const electron = require('electron');
 const mysql = require('mysql');
 const request = require('request');
+const sha1 = require('crypto-js/sha1');
 
 const createDatabase = require('./database/database-persistence');
 const mysqlConfig = {
@@ -116,7 +117,7 @@ ipcMain.on('auth:login', async (event, userData) => {
       if (error) throw error;
       let auth = { authenticated: false, error: 'User not found' };
       if (results.length > 0) {
-        if (results[0].password === userData.pwd){
+        if (results[0].password === sha1(userData.pwd).toString()){
           auth = { ...auth, ...results[0], authenticated: true, error: null };
         } else {
           auth = { ...auth, error: 'Wrong password' };

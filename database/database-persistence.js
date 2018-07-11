@@ -1,4 +1,4 @@
-
+const sha1 = require('crypto-js/sha1');
 const createDatabase = (conn) => {
   conn.query("create table customers ( " +
     "id integer not null primary key auto_increment," +
@@ -47,7 +47,10 @@ const createDatabase = (conn) => {
           console.log(err);
           conn.rollback();
         }
-        conn.query("insert into users (user, password) values ('Admin', 'Admin')");
+
+        const password = sha1("Admin").toString();
+
+        conn.query("insert into users (user, password) values ('Admin', ?)", [password]);
       })
     });
 }

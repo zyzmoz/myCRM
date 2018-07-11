@@ -11,13 +11,27 @@ const Menu = () => {
         <Link to="/">
           <div className="menu-item">
             Início
-        </div>
+          </div>
         </Link>
-        <Link to="/customer">
-          <div className="menu-item">
-            Clientes
+        <div className="menu-item">
+          Cadastros
+          <div className="menu-dropdown">
+            <Link to="/customer">
+              <div className="menu-item">
+                Clientes
+          </div>
+            </Link>
+          </div>
         </div>
-        </Link>
+
+        {/* <div className="menu-item">
+          Usuários
+          <div className="menu-dropdown">
+            <div className="menu-item">
+              Teste
+            </div>
+          </div>
+        </div> */}
       </div>
       <div className="menu-footer">
         v1.0.0b

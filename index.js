@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const request = require('request');
 const sha1 = require('crypto-js/sha1');
 
+
 const createDatabase = require('./database/database-persistence');
 const mysqlConfig = {
   host: 'localhost',
@@ -36,6 +37,8 @@ app.on('ready', () => {
     if (!err && resoponse.statusCode == 200) {
       mainWindow.loadURL('http://localhost:8080/');
       mainWindow.webContents.openDevTools();
+     
+
     } else {
       mainWindow.setMenu(null);
       mainWindow.loadURL(`file://${__dirname}/dist/index.html`);

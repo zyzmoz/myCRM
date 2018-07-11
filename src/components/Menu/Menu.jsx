@@ -1,11 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
+import './style.css';
+import blankUser from '../../assets/img/user.png';
 
 const Menu = () => {
   return (
     <div className="menu">
+      <div className="profile">
+        <div className="profile-avatar">
+          <img src={blankUser} alt="user"/>
+        </div>
+        <div className="profile-content">
+          <span>
+            Admin
+            <Glyphicon glyph="cog" style={{float: "right"}} />
+          </span>
+        </div>
+      </div>
       <h3 className="menu-title">Menu</h3>
       <div className="menu-group">
         <Link to="/">
@@ -27,7 +39,7 @@ const Menu = () => {
       <div className="menu-footer">
         v1.0.0b
       </div>
-    </div>   
+    </div>
   );
 };
 

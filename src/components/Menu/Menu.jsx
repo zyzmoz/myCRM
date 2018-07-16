@@ -26,13 +26,25 @@ const Menu = () => {
           </div>
         </Link>
         <div className="menu-item">
+          Contatos
+        </div>
+        <div className="menu-item">
+          Tarefas
+        </div>
+        <div className="menu-item">
+          Oportunidades
+        </div>
+        <div className="menu-item">
           Cadastros
           <div className="menu-dropdown">
             <Link to="/customer">
               <div className="menu-item">
                 Clientes
-          </div>
+              </div>
             </Link>
+            <div className="menu-item">
+              Usuários
+            </div>
           </div>
         </div>
       </div>

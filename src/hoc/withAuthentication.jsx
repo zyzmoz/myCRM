@@ -8,7 +8,7 @@ const withAuthentication = (Component) => {
       return (
         <div>
         {
-        this.props.auth.authenticated?<Component />:<LoginPage />
+        this.props.auth.authenticated?<Component auth={this.props.auth} />:<LoginPage />
       }
       </div>
     );

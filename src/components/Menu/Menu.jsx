@@ -4,7 +4,7 @@ import { Glyphicon } from 'react-bootstrap';
 import './style.css';
 import blankUser from '../../assets/img/user.png';
 
-const Menu = () => {
+const Menu = ({auth}) => {
   return (
     <div className="menu">
       <div className="profile">
@@ -42,9 +42,11 @@ const Menu = () => {
                 Clientes
               </div>
             </Link>
+            { auth.manager === 'S' &&
             <div className="menu-item">
               Usuários
             </div>
+            }
           </div>
         </div>
       </div>

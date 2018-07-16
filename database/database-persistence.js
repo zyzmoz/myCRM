@@ -36,7 +36,7 @@ const createDatabase = (conn) => {
     "email varchar(60),"+
     "user varchar(60),"+
     "password varchar(60),"+
-    "admin char(1))", (error, res) => {
+    "manager char(1) default 'N')", (error, res) => {
       if (error) {
         console.log(error);
         conn.rollback();
@@ -51,7 +51,7 @@ const createDatabase = (conn) => {
 
         const password = sha1("Admin").toString();
 
-        conn.query("insert into users (user, password, admin) values ('Admin', ?, 'S')", [password]);
+        conn.query("insert into users (user, password, manager) values ('Admin', ?, 'S')", [password]);
       })
     });
 }

@@ -14,11 +14,11 @@ import withAuthentication from '../hoc/withAuthentication';
 
 // library.add(faStroopwafel)
 
-const App = () =>
+const App = ({auth}) =>
   <Router className="content">
     <Row >
       <Col md={2} xs={1}>
-      <Menu className="col col-3" />
+      <Menu auth={auth} className="col col-3" />
       </Col>
       <Col md={10} xs={15}>
       <Switch className="col col-9">

@@ -1,5 +1,6 @@
 import React from 'react';
-import {LinkContainer, Button, Glyphicon} from 'react-bootstrap';
+import { Button, Glyphicon} from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 const UserItem = ({user, openDelete}) => {
   return (

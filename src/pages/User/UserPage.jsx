@@ -9,7 +9,7 @@ class UserPage extends Component {
     search: ''
   }
   render() {
-    const users = [];
+    const users = [{id: 1, name: 'Admin', phone:'', mobile: ''}];
     return (
       <div className="padding window">
         <h3>Usuários</h3>
@@ -25,7 +25,7 @@ class UserPage extends Component {
           </FormGroup>
         </form>
         <br />
-        <UserList users={users}/>
+        <UserList users={users} openDelete={() => console.log()}/>
 
       </div>
     );

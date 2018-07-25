@@ -29,9 +29,10 @@ app.on('ready', () => {
     show: false
   });
   mainWindow.maximize();
-  mainWindow.show();
-  mysqlConnection.connect();
+  mainWindow.show();  
   createDatabase(mysqlConnection);
+  // mysqlConnection.connect();
+  
 
   request('http://localhost:8080', (err, resoponse, body) => {
     if (!err && resoponse.statusCode == 200) {

@@ -51,6 +51,7 @@
     "jest": "^23.1.0",
     "moment": "^2.22.2",
     "mysql": "^2.15.0",
+    "mysqldump": "^2.2.1",
     "react": "^15.6.1",
     "react-bootstrap": "^0.32.1",
     "react-bootstrap-maskedinput": "^0.4.0",

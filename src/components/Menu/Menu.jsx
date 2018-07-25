@@ -43,9 +43,11 @@ const Menu = ({auth}) => {
               </div>
             </Link>
             { auth.manager === 'S' &&
-            <div className="menu-item">
-              Usuários
-            </div>
+            <Link to="/user">
+              <div className="menu-item">
+                Usuários
+              </div>
+            </Link>
             }
           </div>
         </div>

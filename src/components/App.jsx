@@ -8,6 +8,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import withAuthentication from '../hoc/withAuthentication';
+import UserPage from '../pages/User/UserPage';
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
@@ -39,6 +40,10 @@ const App = ({auth}) =>
 
         <Route exact path="/createCustomer"
           component={CustomerForm}
+        />
+
+        <Route exact path="/user"
+          component={UserPage}
         />
 
         <Route path="*"

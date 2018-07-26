@@ -9,6 +9,7 @@ import { Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import withAuthentication from '../hoc/withAuthentication';
 import UserPage from '../pages/User/UserPage';
+import UserDetailedPage from '../pages/User/UserDetailedPage';
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
@@ -44,6 +45,10 @@ const App = ({auth}) =>
 
         <Route exact path="/user"
           component={UserPage}
+        />
+
+        <Route exact path="/user/:id"
+          component={UserDetailedPage}
         />
 
         <Route path="*"

@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import UserItem from './UserItem';
 
-const UserList = ({users, openDelete}) => {
+const UserList = ({ users, currentUser, openDelete }) => {
   return (
     <div>
       <Table striped bordered condensed hover>
@@ -18,7 +18,7 @@ const UserList = ({users, openDelete}) => {
         <tbody>
           {
             users && users.map(user =>
-              <UserItem key={user.id} user={user} openDelete={openDelete} />
+              <UserItem key={user.id} user={user} currentUser={currentUser} openDelete={openDelete} />
             )
           }
 

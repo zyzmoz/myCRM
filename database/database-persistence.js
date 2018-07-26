@@ -75,7 +75,12 @@ const createDatabase = async (conn) => {
 
         const password = sha1("Admin").toString();
 
-        conn.query("insert into users (user, password, manager) values ('Admin', ?, 'S')", [password]);
+        conn.query("insert into users (id, name, user, password, manager) values (1, 'Admin', 'Admin', ?, 'S')", [password], (error) => {
+          if (error) {
+            console.log(error);
+            conn.rollback();
+          }
+        });
       })
     });
 

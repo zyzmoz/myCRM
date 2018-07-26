@@ -18,15 +18,15 @@ class CustomerDetailedPage extends Component {
   async componentDidMount() {
     const { id } = this.props.match.params;
     const { getCustomer } = this.props;
-    console.log(id);
+    
 
     await getCustomer(id);
-    console.log
+    
   }
   render() {
 
     const { customer } = this.props;
-    console.log(customer);
+    
     return (
       <div className="padding window">
         {customer &&

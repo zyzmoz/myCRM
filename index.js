@@ -29,16 +29,16 @@ app.on('ready', () => {
     show: false
   });
   mainWindow.maximize();
-  mainWindow.show();  
+  mainWindow.show();
   createDatabase(mysqlConnection);
   // mysqlConnection.connect();
-  
+
 
   request('http://localhost:8080', (err, resoponse, body) => {
     if (!err && resoponse.statusCode == 200) {
       mainWindow.loadURL('http://localhost:8080/');
       mainWindow.webContents.openDevTools();
-     
+
 
     } else {
       mainWindow.setMenu(null);
@@ -115,13 +115,45 @@ ipcMain.on('customers:delete', async (event, id) => {
 
 });
 
+ipcMain.on('users:query', async (event, str) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('select * from users', (error, results) => {
+      if (error) throw error;
+      resolve(results);
+    });
+  });
+  mainWindow.webContents.send('users:query:complete', query);
+});
+
+ipcMain.on('users:get', async (event, id) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('select * from users where id = ?', [id], (error, results) => {
+      if (error) throw error;
+      resolve(results[0]);
+    });
+  });
+  mainWindow.webContents.send('users:get:complete', query);
+});
+
+ipcMain.on('users:delete', async (event, id) => {
+  var query = await new Promise((resolve) => {
+    mysqlConnection.query('delete from users where id = ?', [id], (error, results, fields) => {
+      if (error) throw error;
+      resolve(results);
+    });
+  });
+
+  mainWindow.webContents.send('users:delete:complete', query);
+
+});
+
 ipcMain.on('auth:login', async (event, userData) => {
   var query = await new Promise((resolve) => {
     mysqlConnection.query('select * from USERS where user = ?', [userData.usr], (error, results, fields) => {
       if (error) throw error;
       let auth = { authenticated: false, error: 'User not found' };
       if (results.length > 0) {
-        if (results[0].password === sha1(userData.pwd).toString()){
+        if (results[0].password === sha1(userData.pwd).toString()) {
           auth = { ...auth, ...results[0], authenticated: true, error: null };
         } else {
           auth = { ...auth, error: 'Wrong password' };
@@ -129,7 +161,7 @@ ipcMain.on('auth:login', async (event, userData) => {
       }
       resolve(auth);
     });
-  }); 
+  });
 
   mainWindow.webContents.send('auth:login:complete', query);
 

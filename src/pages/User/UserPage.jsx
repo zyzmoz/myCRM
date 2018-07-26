@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Glyphicon } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import UserList from '../../components/User/UserList';
 import { connect } from 'react-redux';
 import { queryUsers, startDeleteUser, cancelDeleteUser, deleteUser } from '../../actions/user';
@@ -53,9 +54,10 @@ class UserPage extends Component {
     return (
       <div className="padding window">
         {user && user.deleting &&
-          <UserDeleteForm user={user} handleDelete={this.handleDelete} handleCancel={this.handleCancelDelete}/>
+          <UserDeleteForm user={user} handleDelete={this.handleDelete} handleCancel={this.handleCancelDelete} />
         }
         <h3>Usuários</h3>
+
         <form>
           <FormGroup>
             <ControlLabel>Buscar</ControlLabel>
@@ -68,6 +70,13 @@ class UserPage extends Component {
             <FormControl.Feedback />
           </FormGroup>
         </form>
+        <br />
+        <LinkContainer to="/createUser">
+          <Button bsStyle="success">
+            <Glyphicon glyph="star" />
+            Novo
+          </Button>
+        </LinkContainer>
         <br />
         <UserList users={users} currentUser={currentUser} openDelete={this.handleOpenDelete} />
 

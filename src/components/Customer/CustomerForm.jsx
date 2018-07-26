@@ -83,9 +83,7 @@ class CustomerForm extends Component {
 
   render() {
 
-    const { submitting, pristine, customer } = this.state;
-    console.log('Props',this.props);
-    console.log('Props',this.props);
+    const { submitting, pristine, customer } = this.state;    
 
     return (
       <div className="padding window">
@@ -246,7 +244,7 @@ class CustomerForm extends Component {
                 <Button type="button" onClick={() => this.props.history.goBack()}>
                   <Glyphicon glyph="arrow-left" />
                   Cancelar
-              </Button>
+                </Button>
 
                 <Button type="submit" disabled={pristine || submitting} bsStyle="success" style={{ float: 'right' }}>
                   <Glyphicon glyph="save" />

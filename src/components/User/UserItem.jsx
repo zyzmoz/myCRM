@@ -22,8 +22,8 @@ const UserItem = ({ user, currentUser, openDelete }) => {
 
           </Button>
         </LinkContainer>
-
-        <Button  onClick={() => openDelete(user)} bsStyle="danger" className="action-button">
+        
+        <Button disabled={user.id === currentUser}  onClick={() => openDelete(user)} bsStyle="danger" className="action-button">
           <Glyphicon glyph="trash" />
         </Button>
 

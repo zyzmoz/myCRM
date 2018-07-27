@@ -34,7 +34,7 @@ const Menu = ({auth, logout}) => {
           Tarefas
         </div>
         <div className="menu-item">
-          Oportunidades
+          Vendas
         </div>
         <div className="menu-item">
           Cadastros

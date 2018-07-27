@@ -147,6 +147,42 @@ ipcMain.on('users:delete', async (event, id) => {
 
 });
 
+ipcMain.on('users:create', async (event, user) => {
+  var query = await new Promise((resolve) => {
+    const password = sha1(user.password).toString();
+    mysqlConnection.query('insert into USERS (name, email, phone, mobile, user, password, manager)' +
+      'values (?,?,?,?,?,?,?)', [
+        user.name,user.email, user.phone, user.mobile, user.user, password, user.manager
+        
+      ], (error, results, fields) => {
+        if (error) throw error;
+        resolve(results);
+      });
+  });
+  mainWindow.webContents.send('users:create:complete', query);
+});
+
+ipcMain.on('users:update', async (event, user) => {
+  var query = await new Promise((resolve) => {
+    let password = '';
+    if (user.password1 !== '') {
+      password = sha1(user.password1).toString();
+    } else {
+      password = user.password
+    }
+
+    mysqlConnection.query('update USERS set name = ?, email = ?, phone = ?, mobile = ?,'+
+        'user = ?, password = ?, manager = ? where id = ?', [
+        user.name,user.email, user.phone, user.mobile, user.user, password, user.manager,
+        user.id        
+      ], (error, results, fields) => {
+        if (error) throw error;
+        resolve(results);
+      });
+  });
+  mainWindow.webContents.send('users:update:complete', query);
+});
+
 ipcMain.on('auth:login', async (event, userData) => {
   var query = await new Promise((resolve) => {
     mysqlConnection.query('select * from USERS where user = ?', [userData.usr], (error, results, fields) => {

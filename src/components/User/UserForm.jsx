@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Panel, Row, Col, Button, FormGroup, FormControl, ControlLabel, Glyphicon, Checkbox } from 'react-bootstrap';
+import { Panel, Row, Col, Button, FormGroup, FormControl, ControlLabel, Glyphicon, Checkbox, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { getUser } from '../../actions/user';
+import { getUser, updateUser, createUser } from '../../actions/user';
 
 const mapState = (state) => ({
   user: state.user.object
 });
 
 const actions = {
-  getUser
+  getUser,
+  updateUser,
+  createUser
 }
 
 class UserForm extends Component {
@@ -29,19 +31,21 @@ class UserForm extends Component {
       mobile: '',
       email: '',
       manager: 'N',
+      password: null,
       password1: '',
       password2: ''
     }
 
     if (id) {
       await getUser(id);
+      user = { ...user, ...this.props.user };
     }
 
     await this.setState({ ...this.state, user });
   }
 
   async componentWillReceiveProps(nextProps) {
-    await this.setState({ ...this.state, user: { ...nextProps.user } });
+    await this.setState({ ...this.state, user: { ...this.state.user, ...nextProps.user } });
   }
 
   async handleChange(field, value) {
@@ -56,15 +60,31 @@ class UserForm extends Component {
     const { user } = this.state;
 
     if (!user.id) {
-      // await this.props.createCustomer(customer);
+      await this.props.createUser(user);
     } else {
-      // await this.props.updateCustomer(customer);
+      await this.props.updateUser(user);
     }
     this.props.history.goBack();
   }
 
+  async handleCheckbox() {
+    const obj = this.state.user;
+    if (obj['manager'] === 'S') {
+      obj['manager'] = 'N';
+    } else {
+      obj['manager'] = 'S';
+    }
+    await this.setState({ ...this.state, user: obj, pristine: false });
+  }
+
   render() {
     const { submitting, pristine, user } = this.state;
+    const isValidPassword = user ?
+      ((user.password && user.password1 === '' && user.password2 === '') ||
+        (user.password && user.password1 === user.password2) ||
+        (!user.password && (user.password1 === user.password2) &&
+          (user.password1 !== '' && user.password2 !== ''))) : true;
+
 
     return (
       <div className="padding window">
@@ -77,10 +97,9 @@ class UserForm extends Component {
               <form onSubmit={(e) => this.handleSubmit(e)}>
                 <FormGroup
                   controlId="formBasicText"
-                // validationState={this.getValidationState()}
                 >
                   <Row>
-                    <Col xs={12} md={8}>
+                    <Col xs={6} md={4}>
                       <ControlLabel>Name</ControlLabel>
                       <FormControl
                         type="text"
@@ -90,11 +109,89 @@ class UserForm extends Component {
                       />
                     </Col>
                     <Col xs={6} md={4}>
-                      <Checkbox  checked={user.manager === 'S'}>
+                      <ControlLabel>Usuário</ControlLabel>
+                      <FormControl
+                        type="text"
+                        value={this.state.user.user}
+                        placeholder="Usuário"
+                        onChange={e => this.handleChange('user', e.target.value)}
+                      />
+                    </Col>
+                    <Col xs={6} md={4}>
+                      <ControlLabel></ControlLabel>
+                      <Checkbox onClick={() => this.handleCheckbox()} checked={user.manager === 'S'} >
                         Administrador
                       </Checkbox>
                     </Col>
+                  </Row>
 
+                </FormGroup>
+                <FormGroup
+                  controlId="formBasicText"
+                >
+                  <Row>
+                    <Col xs={6} md={4}>
+                      <ControlLabel>Telefone</ControlLabel>
+                      <FormControl
+                        type="text"
+                        value={this.state.user.phone}
+                        placeholder="Telefone"
+                        onChange={e => this.handleChange('phone', e.target.value)}
+                      />
+                    </Col>
+                    <Col xs={6} md={4}>
+                      <ControlLabel>Celular</ControlLabel>
+                      <FormControl
+                        type="text"
+                        value={this.state.user.mobile}
+                        placeholder="Celular"
+                        onChange={e => this.handleChange('mobile', e.target.value)}
+                      />
+                    </Col>
+                    <Col xs={6} md={4}>
+                      <ControlLabel>Email</ControlLabel>
+                      <FormControl
+                        type="text"
+                        value={this.state.user.email}
+                        placeholder="Email"
+                        onChange={e => this.handleChange('email', e.target.value)}
+                      />
+                    </Col>
+                  </Row>
+                </FormGroup>
+                <FormGroup
+                  controlId="formBasicText"
+                >
+                  <Row>
+                    <Col xs={8} md={6}>
+                      <ControlLabel>Senha</ControlLabel>
+                      <FormControl
+                        type="password"
+                        value={this.state.user.password1}
+                        placeholder="Senha"
+                        onChange={e => this.handleChange('password1', e.target.value)}
+                      />
+                    </Col>
+                    <Col xs={8} md={6}>
+                      <ControlLabel>Confirmação da Senha</ControlLabel>
+                      <FormControl
+                        type="password"
+                        value={this.state.user.password2}
+                        placeholder="Confirmação da Senha"
+                        onChange={e => this.handleChange('password2', e.target.value)}
+                      />
+                    </Col>
+                  </Row>
+                  <hr/>
+                  <Row>
+                    <Col xs={16} md={12}>
+                      {!isValidPassword &&
+                        <Alert bsStyle="danger">
+                          <strong>Erro</strong>
+                          <p>Verifique se as senhas informadas são iguais!</p>
+                        </Alert>
+                      }
+                    </Col>
                   </Row>
                 </FormGroup>
                 <Button type="button" onClick={() => this.props.history.goBack()}>
@@ -102,7 +199,7 @@ class UserForm extends Component {
                   Cancelar
                 </Button>
 
-                <Button type="submit" disabled={pristine || submitting} bsStyle="success" style={{ float: 'right' }}>
+                <Button type="submit" disabled={pristine || submitting || !isValidPassword} bsStyle="success" style={{ float: 'right' }}>
                   <Glyphicon glyph="save" />
                   {submitting ? 'Salvando...' : 'Salvar'}
                 </Button>

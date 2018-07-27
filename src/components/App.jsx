@@ -17,11 +17,11 @@ import UserForm from './User/UserForm';
 
 // library.add(faStroopwafel)
 
-const App = ({auth}) =>
+const App = ({auth, doLogout}) =>
   <Router className="content">
     <Row >
       <Col md={2} xs={1}>
-      <Menu auth={auth} className="col col-3" />
+      <Menu auth={auth} logout={doLogout} className="col col-3" />
       </Col>
       <Col md={10} xs={15}>
       <Switch className="col col-9">

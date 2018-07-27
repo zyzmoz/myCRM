@@ -4,7 +4,9 @@ import { Glyphicon } from 'react-bootstrap';
 import './style.css';
 import blankUser from '../../assets/img/user.png';
 
-const Menu = ({auth}) => {
+const Menu = ({auth, logout}) => {
+  console.log(logout);
+    
   return (
     <div className="menu">
       <div className="profile">
@@ -13,8 +15,8 @@ const Menu = ({auth}) => {
         </div>
         <div className="profile-content">
           <span>
-            Admin
-            <Glyphicon glyph="cog" style={{float: "right"}} />
+            {auth.name}
+            <Glyphicon onClick={logout} glyph="log-out" style={{float: "right"}} />
           </span>
         </div>
       </div>

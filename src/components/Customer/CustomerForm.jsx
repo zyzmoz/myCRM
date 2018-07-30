@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { getCustomer, createCustomer, updateCustomer } from '../../actions/customer';
 import { FormGroup, ControlLabel, FormControl, HelpBlock, Panel, Button, Glyphicon, Row, Col } from 'react-bootstrap';
 import MaskedFormControl from 'react-bootstrap-maskedinput';
+import { getZipCodeInfo } from '../../providers/zipCode';
 
 import format from 'date-fns/format';
 
@@ -82,6 +83,20 @@ class CustomerForm extends Component {
     await this.setState({ ...this.state, customer: { ...nextProps.customer, birthdate: format(nextProps.customer.birthdate, 'YYYY-MM-DD') } });
   }
 
+  async getZipCodeInfo(zipcode) {
+    const info = await getZipCodeInfo(zipcode);
+    if (info) {
+      if (this.state.customer.address === '')
+        this.handleChange('address', info.logradouro);
+
+      this.handleChange('neighborhood', info.bairro);
+      this.handleChange('city', info.localidade);
+      this.handleChange('state', info.uf);
+    }
+
+
+  }
+
 
 
   render() {
@@ -152,7 +167,7 @@ class CustomerForm extends Component {
                         onChange={e => this.handleChange('address', e.target.value)}
                       />
                     </Col>
-                    <Col xs={6} md={4}>
+                    <Col xs={4} md={3}>
                       <ControlLabel>CEP</ControlLabel>
                       <FormControl
                         type="text"
@@ -160,6 +175,12 @@ class CustomerForm extends Component {
                         placeholder="CEP"
                         onChange={e => this.handleChange('zipCode', e.target.value)}
                       />
+                    </Col>
+                    <Col xs={2} md={1}>
+                      <ControlLabel></ControlLabel>
+                      <Button onClick={() => this.getZipCodeInfo(this.state.customer.zipCode)}>
+                        <Glyphicon glyph="search" />
+                      </Button>
                     </Col>
                   </Row>
                   <Row>

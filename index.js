@@ -91,10 +91,10 @@ ipcMain.on('customers:create', async (event, customer) => {
 ipcMain.on('customers:update', async (event, customer) => {
   var query = await new Promise((resolve) => {
     mysqlConnection.query('update CUSTOMERS set doc_id =?, cpf_cnpj=?, name=?, birthdate=?, phone=?, mobile=?, email=?, ' +
-      'address=?, neighborhood=?, city=?, state=?, fidelity=?, obs=? where id=?', [
+      'address=?, neighborhood=?, city=?, state=?, fidelity=?, obs=?, zipCode = ? where id=?', [
         customer.doc_id, customer.cpf_cnpj, customer.name, customer.birthdate, customer.phone,
         customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city,
-        customer.state, customer.fidelity, customer.obs, customer.id
+        customer.state, customer.fidelity, customer.obs, customer.zipCode, customer.id
       ], (error, results, fields) => {
         if (error) throw error;
         resolve(results);

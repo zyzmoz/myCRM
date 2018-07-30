@@ -47,44 +47,47 @@ class CustomerForm extends Component {
   async componentWillMount() {
     const { id } = this.props.match.params;
     const { getCustomer } = this.props;
+    let customerObj = {
+      id: null,
+      name: '',
+      doc_id: '',
+      cpf_cnpj: '',
+      birthdate: '',
+      address: '',
+      neighborhood: '',
+      city: '',
+      zipCode: '',
+      state: '',
+      phone: '',
+      mobile: '',
+      email: '',
+      fidelity: '',
+      obs: ''
+    }
 
     if (id) {
       await getCustomer(id);
-      const { customer } = this.props;
-      console.log('Fetching customer', customer);      
-    } else {
-      const customer = {
-        id: null,
-        name: '',
-        doc_id: '',
-        cpf_cnpj: '',
-        birthdate: '',
-        address: '',
-        neighborhood: '',
-        city: '',
-        state: '',
-        phone: '',
-        mobile: '',
-        email: '',
-        fidelity: '',
-        obs: ''
-      }
-
-      await this.setState({ ...this.state, customer });
+      let { customer } = this.props;
+      if (!customer.zipCode)
+        customer.zipCode = '';
+      customerObj = { ...customerObj, ...customer };
+      console.log('Fetching customer', customer);
     }
+    await this.setState({ ...this.state, customerObj });
+
   }
 
-  async componentWillReceiveProps(nextProps){
+  async componentWillReceiveProps(nextProps) {
     console.log('next', nextProps);
-    await this.setState({ ...this.state, customer: {...nextProps.customer, birthdate: format(nextProps.customer.birthdate, 'YYYY-MM-DD')} });
+    await this.setState({ ...this.state, customer: { ...nextProps.customer, birthdate: format(nextProps.customer.birthdate, 'YYYY-MM-DD') } });
   }
 
 
 
   render() {
 
-    const { submitting, pristine, customer } = this.state;    
-
+    const { submitting, pristine, customer } = this.state;
+    console.log(customer);
     return (
       <div className="padding window">
         {customer &&
@@ -140,13 +143,22 @@ class CustomerForm extends Component {
                   </Row>
 
                   <Row>
-                    <Col xs={18} md={12}>
+                    <Col xs={12} md={8}>
                       <ControlLabel>Endereço</ControlLabel>
                       <FormControl
                         type="text"
                         value={this.state.customer.address}
                         placeholder="Endereço"
                         onChange={e => this.handleChange('address', e.target.value)}
+                      />
+                    </Col>
+                    <Col xs={6} md={4}>
+                      <ControlLabel>CEP</ControlLabel>
+                      <FormControl
+                        type="text"
+                        value={this.state.customer.zipCode}
+                        placeholder="CEP"
+                        onChange={e => this.handleChange('zipCode', e.target.value)}
                       />
                     </Col>
                   </Row>
@@ -187,7 +199,7 @@ class CustomerForm extends Component {
                       <FormControl
                         type="text"
                         value={this.state.customer.phone}
-                        placeholder="Telefone"                                              
+                        placeholder="Telefone"
                         onChange={e => this.handleChange('phone', e.target.value)}
                       />
                     </Col>
@@ -196,7 +208,7 @@ class CustomerForm extends Component {
                       <FormControl
                         type="text"
                         value={this.state.customer.mobile}
-                        placeholder="Celular"                        
+                        placeholder="Celular"
                         onChange={e => this.handleChange('mobile', e.target.value)}
                       />
                     </Col>

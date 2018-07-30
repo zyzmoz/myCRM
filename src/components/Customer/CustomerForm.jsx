@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCustomer, createCustomer, updateCustomer } from '../../actions/customer';
-import { FormGroup, ControlLabel, FormControl, HelpBlock, Panel, Button, Glyphicon, Row, Col } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, InputGroup, Panel, Button, Glyphicon, Row, Col } from 'react-bootstrap';
 import MaskedFormControl from 'react-bootstrap-maskedinput';
 import { getZipCodeInfo } from '../../providers/zipCode';
 
@@ -74,7 +74,7 @@ class CustomerForm extends Component {
       customerObj = { ...customerObj, ...customer };
       console.log('Fetching customer', customer);
     }
-    await this.setState({ ...this.state, customerObj });
+    await this.setState({ ...this.state, customer: customerObj });
 
   }
 
@@ -84,6 +84,7 @@ class CustomerForm extends Component {
   }
 
   async getZipCodeInfo(zipcode) {
+    zipcode = zipcode.replace( /^\D+/g, '');
     const info = await getZipCodeInfo(zipcode);
     if (info) {
       if (this.state.customer.address === '')
@@ -100,9 +101,8 @@ class CustomerForm extends Component {
 
 
   render() {
-
     const { submitting, pristine, customer } = this.state;
-    console.log(customer);
+    
     return (
       <div className="padding window">
         {customer &&
@@ -112,21 +112,17 @@ class CustomerForm extends Component {
             </Panel.Heading>
             <Panel.Body>
               <form onSubmit={(e) => this.handleSubmit(e)}>
-                <FormGroup
-                  controlId="formBasicText"
-                // validationState={this.getValidationState()}
-                >
-                  <Row>
-                    <Col xs={18} md={12}>
-                      <ControlLabel>Name</ControlLabel>
-                      <FormControl
-                        type="text"
-                        value={this.state.customer.name}
-                        placeholder="Nome"
-                        onChange={e => this.handleChange('name', e.target.value)}
-                      />
-                    </Col>
-                  </Row>
+                <FormGroup>
+
+                  <ControlLabel>Name</ControlLabel>
+                  <FormControl
+                    type="text"
+                    value={this.state.customer.name}
+                    placeholder="Nome"
+                    onChange={e => this.handleChange('name', e.target.value)}
+                  />
+                </FormGroup>
+                <FormGroup >
                   <Row>
                     <Col xs={6} md={4}>
                       <ControlLabel>RG/IE</ControlLabel>
@@ -156,7 +152,8 @@ class CustomerForm extends Component {
                       />
                     </Col>
                   </Row>
-
+                </FormGroup>
+                <FormGroup >
                   <Row>
                     <Col xs={12} md={8}>
                       <ControlLabel>Endereço</ControlLabel>
@@ -167,22 +164,25 @@ class CustomerForm extends Component {
                         onChange={e => this.handleChange('address', e.target.value)}
                       />
                     </Col>
-                    <Col xs={4} md={3}>
+                    <Col xs={6} md={4}>
                       <ControlLabel>CEP</ControlLabel>
-                      <FormControl
-                        type="text"
-                        value={this.state.customer.zipCode}
-                        placeholder="CEP"
-                        onChange={e => this.handleChange('zipCode', e.target.value)}
-                      />
-                    </Col>
-                    <Col xs={2} md={1}>
-                      <ControlLabel></ControlLabel>
-                      <Button onClick={() => this.getZipCodeInfo(this.state.customer.zipCode)}>
+                      <InputGroup>
+                        <FormControl
+                          type="text"
+                          value={this.state.customer.zipCode}
+                          placeholder="CEP"
+                          onChange={e => this.handleChange('zipCode', e.target.value)}
+                        />
+                        <InputGroup.Button>
+                        <Button onClick={() => this.getZipCodeInfo(this.state.customer.zipCode)}>
                         <Glyphicon glyph="search" />
                       </Button>
+                        </InputGroup.Button>
+                      </InputGroup>                      
                     </Col>
                   </Row>
+                </FormGroup >
+                <FormGroup >
                   <Row>
                     <Col xs={6} md={4}>
                       <ControlLabel>Bairro</ControlLabel>
@@ -213,7 +213,8 @@ class CustomerForm extends Component {
                       />
                     </Col>
                   </Row>
-
+                </FormGroup >
+                <FormGroup >
                   <Row>
                     <Col xs={6} md={4}>
                       <ControlLabel>Telefone</ControlLabel>
@@ -244,7 +245,8 @@ class CustomerForm extends Component {
                       />
                     </Col>
                   </Row>
-
+                </FormGroup >
+                <FormGroup >
                   <Row>
                     <Col xs={8} md={6}>
                       <ControlLabel>Programa de Fidelidade</ControlLabel>

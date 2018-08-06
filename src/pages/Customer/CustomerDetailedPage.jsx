@@ -49,16 +49,22 @@ class CustomerDetailedPage extends Component {
                 </Row>
 
                 <Row className="show-grid">
-                  <Col xs={6} md={4}>
+                  <Col xs={12} md={8}>
                     <strong>Endereco: </strong>{customer.address}
                   </Col>
                   <Col xs={6} md={4}>
+                    <strong>CEP: </strong>{customer.zipCode}
+                  </Col>
+                </Row>
+
+                <Row className="show-grid">              
+                  <Col xs={6} md={4}>
                     <strong>Bairro: </strong>{customer.neighborhood}
                   </Col>
-                  <Col xs={3} md={2}>
+                  <Col xs={6} md={4}>
                     <strong>Cidade: </strong>{customer.city}
                   </Col>
-                  <Col xs={3} md={2}>
+                  <Col xs={6} md={4}>
                     <strong>UF: </strong>{customer.state}
                   </Col>
                 </Row>

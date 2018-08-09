@@ -8,11 +8,11 @@ import {
 import { ipcRenderer } from 'electron';
 
 export const queryCustomers = (str) => {
-  ipcRenderer.send('customers:query', '');
+  ipcRenderer.send('customers:query', str);
   return async (dispatch) => {
     await ipcRenderer.on('customers:query:complete', (event, data) => {
-      if (str && (str !== ''))
-        data = data.filter(item => item.name.toUpperCase().includes(str.toUpperCase()));
+      // if (str && (str !== ''))
+      //   data = data.filter(item => item.name.toUpperCase().includes(str.toUpperCase()));
       dispatch({
         type: QUERY_CUSTOMERS,
         payload: {

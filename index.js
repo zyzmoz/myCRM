@@ -51,10 +51,17 @@ app.on('ready', () => {
 
 ipcMain.on('customers:query', async (event, str) => {
   var query = await new Promise((resolve) => {
-    mysqlConnection.query('SELECT * FROM CUSTOMERS', (error, results, fields) => {
-      if (error) throw error;
-      resolve(results);
-    });
+    if (str && str !== '') {
+      mysqlConnection.query("SELECT * FROM CUSTOMERS where name like '%"+str+"%'", (error, results, fields) => {
+        if (error) throw error;
+        resolve(results);
+      });
+    } else {
+      mysqlConnection.query('SELECT * FROM CUSTOMERS', (error, results, fields) => {
+        if (error) throw error;
+        resolve(results);
+      });
+    }
   });
 
   mainWindow.webContents.send('customers:query:complete', query);
@@ -152,8 +159,8 @@ ipcMain.on('users:create', async (event, user) => {
     const password = sha1(user.password).toString();
     mysqlConnection.query('insert into USERS (name, email, phone, mobile, user, password, manager)' +
       'values (?,?,?,?,?,?,?)', [
-        user.name,user.email, user.phone, user.mobile, user.user, password, user.manager
-        
+        user.name, user.email, user.phone, user.mobile, user.user, password, user.manager
+
       ], (error, results, fields) => {
         if (error) throw error;
         resolve(results);
@@ -171,10 +178,10 @@ ipcMain.on('users:update', async (event, user) => {
       password = user.password
     }
 
-    mysqlConnection.query('update USERS set name = ?, email = ?, phone = ?, mobile = ?,'+
-        'user = ?, password = ?, manager = ? where id = ?', [
-        user.name,user.email, user.phone, user.mobile, user.user, password, user.manager,
-        user.id        
+    mysqlConnection.query('update USERS set name = ?, email = ?, phone = ?, mobile = ?,' +
+      'user = ?, password = ?, manager = ? where id = ?', [
+        user.name, user.email, user.phone, user.mobile, user.user, password, user.manager,
+        user.id
       ], (error, results, fields) => {
         if (error) throw error;
         resolve(results);

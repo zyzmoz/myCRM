@@ -51,6 +51,62 @@ const createDatabase = async (conn) => {
         }
       })
     });
+  
+  conn.query("alter table customers change column email email varchar(1000)", (error, res) => {
+    if (error) {
+      console.log(error);
+      conn.rollback();
+    }
+
+    conn.commit((err) => {
+      if (err) {
+        console.log(err);
+        conn.rollback();
+      }
+    });
+  });
+
+  conn.query("alter table customers change column address address varchar(1000)", (error, res) => {
+    if (error) {
+      console.log(error);
+      conn.rollback();
+    }
+
+    conn.commit((err) => {
+      if (err) {
+        console.log(err);
+        conn.rollback();
+      }
+    });
+  });
+
+  conn.query("alter table customers change column phone phone varchar(1000)", (error, res) => {
+    if (error) {
+      console.log(error);
+      conn.rollback();
+    }
+
+    conn.commit((err) => {
+      if (err) {
+        console.log(err);
+        conn.rollback();
+      }
+    });
+  });
+
+  conn.query("alter table customers change column mobile mobile varchar(1000)", (error, res) => {
+    if (error) {
+      console.log(error);
+      conn.rollback();
+    }
+
+    conn.commit((err) => {
+      if (err) {
+        console.log(err);
+        conn.rollback();
+      }
+    });
+  });
 
   conn.query("create table users (" +
     "id integer not null primary key auto_increment," +

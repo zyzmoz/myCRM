@@ -7,16 +7,20 @@ import {
 } from './constants';
 import { ipcRenderer } from 'electron';
 
-export const queryCustomers = (str) => {
-  ipcRenderer.send('customers:query', str);
+export const queryCustomers = (str, page) => {
+  if (!page) page = 0;
+  ipcRenderer.send('customers:query', {str, starting: page });
   return async (dispatch) => {
-    await ipcRenderer.on('customers:query:complete', (event, data) => {
+    await ipcRenderer.on('customers:query:complete', (event, response) => {
       // if (str && (str !== ''))
       //   data = data.filter(item => item.name.toUpperCase().includes(str.toUpperCase()));
+      const { data, pages } = response;
+      console.log(pages);
       dispatch({
         type: QUERY_CUSTOMERS,
         payload: {
-          data: data
+          data: data,
+          pages: Math.round(pages)
         }
       });
     });

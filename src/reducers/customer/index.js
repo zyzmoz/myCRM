@@ -13,7 +13,8 @@ let initialState = {};
 
 const queryCustomers = (state, payload) => {  
   return {
-    list: payload.data
+    list: payload.data,
+    pages: payload.pages
   }
 }
 
@@ -21,7 +22,8 @@ const getCustomer = (state, payload) => {
   console.log('payload', payload);
   return {
     ...state,
-    object: payload.data
+    object: payload.data,
+    pages: payload.pages
   }
 }
 

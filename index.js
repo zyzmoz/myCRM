@@ -48,23 +48,46 @@ app.on('ready', () => {
 
   mainWindow.on('closed', () => app.quit());
 });
-
-ipcMain.on('customers:query', async (event, str) => {
-  var query = await new Promise((resolve) => {
+//options { str, starting}
+ipcMain.on('customers:query', async (event, options) => {
+  const { str, starting } = options;
+  let query = await new Promise((resolve) => {
     if (str && str !== '') {
-      mysqlConnection.query("SELECT * FROM CUSTOMERS where name like '%"+str+"%'", (error, results, fields) => {
+      mysqlConnection.query("SELECT * FROM CUSTOMERS where name like '%" + str + "%' limit 10 offset ?", [starting], (error, results, fields) => {
         if (error) throw error;
         resolve(results);
       });
     } else {
-      mysqlConnection.query('SELECT * FROM CUSTOMERS', (error, results, fields) => {
+      mysqlConnection.query('SELECT * FROM CUSTOMERS limit 10 offset ?', [starting], (error, results, fields) => {
         if (error) throw error;
         resolve(results);
       });
     }
   });
 
-  mainWindow.webContents.send('customers:query:complete', query);
+  let pages = await new Promise((resolve) => {
+    if (str && str !== '') {
+      mysqlConnection.query("SELECT count(id) as PAGES FROM CUSTOMERS where name like '%" + str + "%'", (error, results) => {
+        if (error) throw error;
+        const numPages = results[0].PAGES / 10;
+        resolve(numPages);
+      }); 
+    } else {
+      mysqlConnection.query("SELECT count(id) as PAGES FROM CUSTOMERS", (error, results) => {
+        if (error) throw error;
+        const numPages = results[0].PAGES / 10;
+        resolve(numPages);
+      });
+    }
+  });
+
+  let response = {
+    data: query,
+    pages: pages
+  }
+
+  mainWindow.webContents.send('customers:query:complete', response);
+
 
 });
 

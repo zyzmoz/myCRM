@@ -44,7 +44,7 @@ class CustomerDetailedPage extends Component {
                     <strong>CPF/CNPJ: </strong>{customer.cpf_cnpj}
                   </Col>
                   <Col xs={6} md={4}>
-                    <strong>Nascimento: </strong>{format(customer.birthdate, 'DD/MM/YYYY')}
+                    <strong>Nascimento: </strong>{customer.birthdate && format(customer.birthdate, 'DD/MM/YYYY')}
                   </Col>
                 </Row>
 

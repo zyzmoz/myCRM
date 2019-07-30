@@ -11,6 +11,8 @@ import withAuthentication from '../hoc/withAuthentication';
 import UserPage from '../pages/User/UserPage';
 import UserDetailedPage from '../pages/User/UserDetailedPage';
 import UserForm from './User/UserForm';
+import OrderPage from '../pages/Order/OrderPage';
+import OrderForm from './Order/OrderForm';
 // import { library } from '@fortawesome/fontawesome-svg-core';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faStroopwafel } from '@fortawesome/free-solid-svg-icons';
@@ -64,10 +66,22 @@ const App = ({ auth, doLogout }) =>
               component={UserForm}
             />
           }
+          {auth.manager === 'S' &&
+            <Route exact path="/newOrder"
+              component={OrderForm}
+            />
+          }
+          {
+            auth.manager === 'S' &&
+            <Route exact path="/orders"
+              component={OrderPage}
+            />
+          }
 
           <Route path="*"
             component={HomePage}
           />
+
 
         </Switch>
       </Col>

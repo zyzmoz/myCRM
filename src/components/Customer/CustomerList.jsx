@@ -4,8 +4,7 @@ import CustomerItem from './CustomerItem';
 
 const CustomerList = ({ customers, openDelete }) => {
   return (
-    <div>
-      
+    <div>      
       <Table striped bordered condensed hover>
         <thead>
           <tr>
@@ -22,7 +21,6 @@ const CustomerList = ({ customers, openDelete }) => {
               <CustomerItem key={customer.id} customer={customer} openDelete={openDelete} />
             )
           }
-
         </tbody>
       </Table>
     </div>

@@ -28,7 +28,7 @@ class CustomerForm extends Component {
     this.setState({ ...this.state, submitting: true });
     event.preventDefault();
     const { customer } = this.state;
-    customer.birthdate = format(customer.birthdate || new Date(), 'YYYY-MM-DD');
+    customer.birthdate = customer.birthdate ? format(customer.birthdate, 'YYYY-MM-DD'): '';
     if (!customer.id) {
       await this.props.createCustomer(customer);
     } else {

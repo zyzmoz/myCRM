@@ -4,19 +4,19 @@ import { Glyphicon } from 'react-bootstrap';
 import './style.css';
 import blankUser from '../../assets/img/user.png';
 
-const Menu = ({auth, logout}) => {
+const Menu = ({ auth, logout }) => {
   console.log(logout);
-    
+
   return (
     <div className="menu">
       <div className="profile">
         <div className="profile-avatar">
-          <img src={blankUser} alt="user"/>
+          <img src={blankUser} alt="user" />
         </div>
         <div className="profile-content">
           <span>
             {auth.name}
-            <Glyphicon onClick={logout} glyph="log-out" style={{float: "right"}} />
+            <Glyphicon onClick={logout} glyph="log-out" style={{ float: "right" }} />
           </span>
         </div>
       </div>
@@ -33,9 +33,11 @@ const Menu = ({auth, logout}) => {
         <div className="menu-item">
           Tarefas
         </div>
-        <div className="menu-item">
-          Vendas
-        </div>
+        <Link to="/orders">
+          <div className="menu-item">
+            Vendas
+          </div>
+        </Link>
         <div className="menu-item">
           Cadastros
           <div className="menu-dropdown">
@@ -44,12 +46,12 @@ const Menu = ({auth, logout}) => {
                 Clientes
               </div>
             </Link>
-            { auth.manager === 'S' &&
-            <Link to="/user">
-              <div className="menu-item">
-                Usuários
+            {auth.manager === 'S' &&
+              <Link to="/user">
+                <div className="menu-item">
+                  Usuários
               </div>
-            </Link>
+              </Link>
             }
           </div>
         </div>

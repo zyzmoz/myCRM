@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, FormControl, ControlLabel, Row, Col, Button, Glyphicon, Panel } from 'react-bootstrap';
+import OrderServiceItem from './OrderServiceItem';
 
 
 
@@ -35,7 +36,7 @@ class OrderServices extends Component {
 
     return (
 
-      <Panel.Body>
+      <Panel.Body style={styles.container}>
 
         <FormGroup>
           <Row>
@@ -45,8 +46,9 @@ class OrderServices extends Component {
                 type="text"
                 placeholder="Serviço"
                 name="description"
-                onChange={e => this.handleChange(e)}
                 value={description}
+                onChange={e => this.handleChange(e)}
+
               />
             </Col>
             <Col xs={4} md={3}>
@@ -55,8 +57,9 @@ class OrderServices extends Component {
                 type="date"
                 placeholder="Data de Início"
                 name="starts_at"
-                onChange={e => this.handleChange(e)}
                 value={starts_at}
+                onChange={e => this.handleChange(e)}
+
               />
             </Col>
             <Col xs={4} md={3}>
@@ -65,8 +68,9 @@ class OrderServices extends Component {
                 type="date"
                 placeholder="Data de Fim"
                 name="ends_at"
+                value={this.state.ends_at}
                 onChange={e => this.handleChange(e)}
-                value={ends_at}
+
               />
             </Col>
           </Row>
@@ -76,11 +80,29 @@ class OrderServices extends Component {
           <Glyphicon glyph="star" />
           Incluir Serviço
           </Button>
-
-        {services && services.map((service, i) => <div key={i}>{service.description}</div>)}
+        <div style={styles.list}>
+          <p><b>Serviços Selecionados</b></p>
+          {services && services.map((service, i) => <OrderServiceItem key={i} service={service} />)}
+        </div>
       </Panel.Body>
 
     );
+  }
+}
+
+const styles = {
+  container: {
+  
+
+  },
+  list: {
+    marginTop: '20px'
+  },
+  edit: {
+    width: '450px'
+  },
+  date: {
+    width: '100px'
   }
 }
 

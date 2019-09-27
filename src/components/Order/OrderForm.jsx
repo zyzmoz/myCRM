@@ -155,6 +155,7 @@ class OrderForm extends Component {
               </FormGroup>
 
               <div className="services">
+                <h3>Serviços</h3>
                 <OrderServices addService={this.addService} services={services} />
               </div>
 

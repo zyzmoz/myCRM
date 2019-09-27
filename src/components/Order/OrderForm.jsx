@@ -3,7 +3,7 @@ import { Panel, FormGroup, FormControl, ControlLabel, Button, Glyphicon, Row, Co
 import { connect } from 'react-redux';
 import Autocomplete from 'react-autocomplete';
 import { queryCustomers } from '../../actions/customer';
-import OrderServices from './OrderServiceList';
+import OrderServices from './OrderServices';
 import moment from 'moment';
 
 
@@ -44,12 +44,20 @@ class OrderForm extends Component {
   handleChange = (e) => {
     const { name, value } = e.target;
     const { formData } = this.state;
-    this.setState({ formData: { ...formData, [name]: value } });
+    this.setState({ formData: { ...formData, [name]: value }, pristine: false });
   }
   filterCustomer = (value) => {
-    this.setState({value});
-    const { formData } = this.state;    
+    this.setState({ value });
+    const { formData } = this.state;
     this.props.queryCustomers(value);
+  }
+  addService = (service) => {
+    const { formData } = this.state;
+    let services = this.state.formData.services;
+    services = [...services, service];
+
+    this.setState({ formData: { ...formData, services }, pristine: false });
+    console.log(this.state);
   }
 
   selectCustomer = (customer) => {
@@ -60,6 +68,7 @@ class OrderForm extends Component {
   render() {
     const { customers } = this.props;
     const { submitting, pristine, formData, value } = this.state;
+    const { services } = this.state.formData;
     console.log('c', customers);
     return (
       <div className="padding window">
@@ -146,7 +155,7 @@ class OrderForm extends Component {
               </FormGroup>
 
               <div className="services">
-                <OrderServices />
+                <OrderServices addService={this.addService} services={services} />
               </div>
 
               <Button type="button" onClick={() => this.props.history.goBack()}>

@@ -1,7 +1,9 @@
 const electron = require('electron');
 const mysql = require('mysql');
 const request = require('request');
-const sha1 = require('crypto-js/sha1');
+const customers = require('./actions/customers');
+const orders = require('./actions/orders');
+const users = require('./actions/users');
 
 
 const createDatabase = require('./database/database-persistence');
@@ -30,8 +32,7 @@ app.on('ready', () => {
   });
   mainWindow.maximize();
   mainWindow.show();
-  createDatabase(mysqlConnection);
-  // mysqlConnection.connect();
+  createDatabase(mysqlConnection);  
 
 
   request('http://localhost:8080', (err, resoponse, body) => {
@@ -48,189 +49,28 @@ app.on('ready', () => {
 
   mainWindow.on('closed', () => app.quit());
 });
-//options { str, starting}
-ipcMain.on('customers:query', async (event, options) => {
-  const { str, starting } = options;
-  let query = await new Promise((resolve) => {
-    if (str && str !== '') {
-      mysqlConnection.query("SELECT * FROM CUSTOMERS where name like '%" + str + "%' limit 10 offset ?", [starting], (error, results, fields) => {
-        if (error) throw error;
-        resolve(results);
-      });
-    } else {
-      mysqlConnection.query('SELECT * FROM CUSTOMERS limit 10 offset ?', [starting], (error, results, fields) => {
-        if (error) throw error;
-        resolve(results);
-      });
-    }
-  });
 
-  let pages = await new Promise((resolve) => {
-    if (str && str !== '') {
-      mysqlConnection.query("SELECT count(id) as PAGES FROM CUSTOMERS where name like '%" + str + "%'", (error, results) => {
-        if (error) throw error;
-        const numPages = results[0].PAGES / 10;
-        resolve(numPages);
-      });
-    } else {
-      mysqlConnection.query("SELECT count(id) as PAGES FROM CUSTOMERS", (error, results) => {
-        if (error) throw error;
-        const numPages = results[0].PAGES / 10;
-        resolve(numPages);
-      });
-    }
-  });
+//Customers
+ipcMain.on('customers:query', async (event, options) => customers.query(event, options, mysqlConnection, mainWindow));
 
-  let response = {
-    data: query,
-    pages: pages
-  }
+ipcMain.on('customers:get', async (event, id) => customers.get(event, id, mysqlConnection, mainWindow ));
 
-  mainWindow.webContents.send('customers:query:complete', response);
+ipcMain.on('customers:create', async (event, customer) => customers.create(event, customer, mysqlConnection, mainWindow));
 
+ipcMain.on('customers:update', async (event, customer) => customers.update(event, customer, mysqlConnection, mainWindow));
 
-});
+ipcMain.on('customers:delete', async (event, id) => customers.remove(event, id, mysqlConnection, mainWindow));
 
-ipcMain.on('customers:get', async (event, id) => {
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('select * from CUSTOMERS where id = ?', [id], (error, results, fields) => {
-      if (error) throw error;
-      resolve(results[0]);
-    });
-  });
+//Users
+ipcMain.on('users:query', async (event, str) => users.query(event, str, mysqlConnection, mainWindow));
 
-  mainWindow.webContents.send('customers:get:complete', query);
+ipcMain.on('users:delete', async (event, id) => users.remove(event, id, mysqlConnection, mainWindow));
 
-});
+ipcMain.on('users:create', async (event, user) => users.create(event, user, mysqlConnection, mainWindow));
 
-ipcMain.on('customers:create', async (event, customer) => {
-  let birthdate = customer.birthdate != ''? customer.birthdate : null;
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('insert into CUSTOMERS (doc_id, cpf_cnpj, name, birthdate, phone, mobile, email, address, neighborhood, city, state, fidelity, obs, zipCode)' +
-      'values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [
-        customer.doc_id, customer.cpf_cnpj, customer.name, birthdate, customer.phone,
-        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city,
-        customer.state, customer.fidelity, customer.obs, customer.zipCode
-      ], (error, results, fields) => {
-        if (error) throw error;
-        resolve(results);
-      });
-  });
-  mainWindow.webContents.send('customers:create:complete', query);
-});
+ipcMain.on('users:update', async (event, user) => users.update(event, user, mysqlConnection, mainWindow));
 
-ipcMain.on('customers:update', async (event, customer) => {
-  let birthdate = customer.birthdate != ''? customer.birthdate : null;
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('update CUSTOMERS set doc_id =?, cpf_cnpj=?, name=?, birthdate=?, phone=?, mobile=?, email=?, ' +
-      'address=?, neighborhood=?, city=?, state=?, fidelity=?, obs=?, zipCode = ? where id=?', [
-        customer.doc_id, customer.cpf_cnpj, customer.name, birthdate, customer.phone,
-        customer.mobile, customer.email, customer.address, customer.neighborhood, customer.city,
-        customer.state, customer.fidelity, customer.obs, customer.zipCode, customer.id
-      ], (error, results, fields) => {
-        if (error) throw error;
-        resolve(results);
-      });
-  });
-  mainWindow.webContents.send('customers:update:complete', query);
-});
+ipcMain.on('auth:login', async (event, userData) => users.login(event, userData, mysqlConnection, mainWindow));
 
-ipcMain.on('customers:delete', async (event, id) => {
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('delete from CUSTOMERS where id = ?', [id], (error, results, fields) => {
-      if (error) throw error;
-      resolve(results);
-    });
-  });
-
-  mainWindow.webContents.send('customers:delete:complete', query);
-
-});
-
-ipcMain.on('users:query', async (event, str) => {
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('select * from users', (error, results) => {
-      if (error) throw error;
-      resolve(results);
-    });
-  });
-  mainWindow.webContents.send('users:query:complete', query);
-});
-
-ipcMain.on('users:get', async (event, id) => {
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('select * from users where id = ?', [id], (error, results) => {
-      if (error) throw error;
-      resolve(results[0]);
-    });
-  });
-  mainWindow.webContents.send('users:get:complete', query);
-});
-
-ipcMain.on('users:delete', async (event, id) => {
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('delete from users where id = ?', [id], (error, results, fields) => {
-      if (error) throw error;
-      resolve(results);
-    });
-  });
-
-  mainWindow.webContents.send('users:delete:complete', query);
-
-});
-
-ipcMain.on('users:create', async (event, user) => {
-  var query = await new Promise((resolve) => {
-    const password = sha1(user.password).toString();
-    mysqlConnection.query('insert into USERS (name, email, phone, mobile, user, password, manager)' +
-      'values (?,?,?,?,?,?,?)', [
-        user.name, user.email, user.phone, user.mobile, user.user, password, user.manager
-
-      ], (error, results, fields) => {
-        if (error) throw error;
-        resolve(results);
-      });
-  });
-  mainWindow.webContents.send('users:create:complete', query);
-});
-
-ipcMain.on('users:update', async (event, user) => {
-  var query = await new Promise((resolve) => {
-    let password = '';
-    if (user.password1 !== '') {
-      password = sha1(user.password1).toString();
-    } else {
-      password = user.password
-    }
-
-    mysqlConnection.query('update USERS set name = ?, email = ?, phone = ?, mobile = ?,' +
-      'user = ?, password = ?, manager = ? where id = ?', [
-        user.name, user.email, user.phone, user.mobile, user.user, password, user.manager,
-        user.id
-      ], (error, results, fields) => {
-        if (error) throw error;
-        resolve(results);
-      });
-  });
-  mainWindow.webContents.send('users:update:complete', query);
-});
-
-ipcMain.on('auth:login', async (event, userData) => {
-  var query = await new Promise((resolve) => {
-    mysqlConnection.query('select * from USERS where user = ?', [userData.usr], (error, results, fields) => {
-      if (error) throw error;
-      let auth = { authenticated: false, error: 'User not found' };
-      if (results.length > 0) {
-        if (results[0].password === sha1(userData.pwd).toString()) {
-          auth = { ...auth, ...results[0], authenticated: true, error: null };
-        } else {
-          auth = { ...auth, error: 'Wrong password' };
-        }
-      }
-      resolve(auth);
-    });
-  });
-
-  mainWindow.webContents.send('auth:login:complete', query);
-
-});
+//Orders
+ipcMain.on('orders:insert', async (event, orderData) => orders.insert(event, orderData, mysqlConnection, mainWindow));

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCustomer, createCustomer, updateCustomer } from '../../actions/customer';
 import { FormGroup, ControlLabel, FormControl, InputGroup, Panel, Button, Glyphicon, Row, Col } from 'react-bootstrap';
-import MaskedFormControl from 'react-bootstrap-maskedinput';
 import { getZipCodeInfo } from '../../providers/zipCode';
 
 import format from 'date-fns/format';

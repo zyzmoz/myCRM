@@ -32,13 +32,16 @@ class OrderForm extends Component {
       services: [
 
       ]
-    },
-    value: '',
-    id: null
+    },    
   }
 
   componentDidMount() {
     this.props.queryCustomers();
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(this.state);
   }
 
   handleChange = (e) => {
@@ -67,9 +70,8 @@ class OrderForm extends Component {
 
   render() {
     const { customers } = this.props;
-    const { submitting, pristine, formData, value } = this.state;
-    const { services } = this.state.formData;
-    console.log('c', customers);
+    const { submitting, pristine, formData } = this.state;
+    const { services } = this.state.formData;    
     return (
       <div className="padding window">
 
@@ -109,9 +111,9 @@ class OrderForm extends Component {
                         {item.name}
                       </div>
                     }
-                    value={value}
+                    value={formData.customer_name}
                     onChange={(e) => this.filterCustomer(e.target.value)}
-                    onSelect={(val, item) => this.setState({ value: val, id: item._id })}
+                    onSelect={(val, item) => this.selectCustomer({ name: val, id: item.id })}
                     inputProps={{
                       className: 'form-control'
                     }}
